@@ -9,53 +9,26 @@ namespace Estante_De_Livros
 {
     public class Livro
     {
-        public string titulo;
-        public string autores;
-        public string editora;
-        public int edicao;
-        public int quantidadeDePaginas;
-        public BigInteger ISBN;
-        public DateOnly dataDeLacamento;
+        string titulo;
+        string autores;
+        string editora;
+        int edicao;
+        int quantidadeDePaginas;
+        BigInteger ISBN;
+        DateOnly dataDeLacamento;
 
-        public Livro() {
-        }
-
-        public void DefinirTitulo(string titulo)
+        public Livro(string titulo, string autores, string editora, int edicao, int quantidadeDePaginas, BigInteger iSBN, DateOnly dataDeLacamento)
         {
             this.titulo = titulo;
-        }
-
-        public void DefinirAutores(string autores)
-        {
             this.autores = autores;
-        }
-
-        public void DefinirEditora(string editora)
-        {
             this.editora = editora;
-        }
-
-        public void DefinirISBN(BigInteger ISBN)
-        {
-            this.ISBN = ISBN;
-        }
-
-        public void DefinirEdicao(int edicao)
-        {
             this.edicao = edicao;
+            this.quantidadeDePaginas = quantidadeDePaginas;
+            ISBN = iSBN;
+            this.dataDeLacamento = dataDeLacamento;
         }
 
-        public void DefinirQuantidadeDePaginas(int paginas)
-        {
-            this.quantidadeDePaginas = paginas;
-        }
-
-        public void DefinirDataDeLancamento(DateOnly data)
-        {
-            this.dataDeLacamento = data;
-        }
-
-        public void ExibirDadosDoLivro()
+        public void ImprimirDadosDoLivro()
         {
             Console.WriteLine("Titulo: " + this.titulo);
             Console.WriteLine("Autores: " + this.autores);
