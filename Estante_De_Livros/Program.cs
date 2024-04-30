@@ -5,7 +5,33 @@ Livro[] estante = new Livro[10];
 int posicao = 0;
 bool cadastrar = true, repetir = true;
 
-Livro ArmazenarLivro()
+Console.WriteLine("Organize a estante de livros!\n");
+
+int Menu()
+{
+    do
+    {
+        Console.Write($" - A sua estante possui {posicao} livros, o que você deseja fazer? - \n");
+        Console.WriteLine("(1) Armazenar novo livro");
+        Console.WriteLine("(2) Exibir todos livros");
+        Console.WriteLine("(3) Exibir livro pelo indice");
+        Console.WriteLine("(4) Sair");
+
+        int opcao = int.Parse(Console.ReadLine());
+
+        if (opcao < 1 || opcao > 4)
+        {
+            Console.WriteLine("Opção inválida, tente novamente.\n");
+        }
+        else
+        {
+            return opcao;
+        }
+    }
+    while (true);
+}
+
+Livro CadastrarLivro()
 {
     int edicao, quantidadeDePaginas;
     string titulo, autores, editora;
@@ -36,10 +62,38 @@ Livro ArmazenarLivro()
     return new(titulo, autores, editora, edicao, quantidadeDePaginas, ISBN, dataDeLacamento);
 }
 
-void ImprimirTodosLivros(int quantidade)
+void ArmazenarLivro()
 {
+    do
+    {
+        Console.Clear();
+        if (posicao >= 10)
+        {
+            Console.WriteLine("Estante cheia, impossível adicionar mais livros.");
+            break;
+        }
+        Console.WriteLine($"Cadastre os dados os dados do livro antes de armazenar: \n");
+        estante[posicao] = CadastrarLivro();
+        posicao++;
+
+        Console.WriteLine("\n - Livro Armazenado! - \n");
+
+        Console.Write("Deseja armazenar mais um livro? (S) Sim / (N) Não : ");
+        cadastrar = Console.ReadLine().ToUpper().First() == 'S';
+    }
+    while (cadastrar && posicao < 10);
+}
+
+void ImprimirTodosLivros()
+{
+    Console.Clear();
+    Console.WriteLine("Livros da estante: \n");
+    if (posicao < 1)
+    {
+        Console.WriteLine($"\nA estante está vazia, armazene um livro para poder exibir.");
+    }
     Console.WriteLine();
-    for (int livro = 0; livro < quantidade; livro++)
+    for (int livro = 0; livro < posicao; livro++)
     {
         estante[livro].ImprimirDadosDoLivro();
         Console.WriteLine();
@@ -48,20 +102,28 @@ void ImprimirTodosLivros(int quantidade)
 
 void ImprimirLivroPorIndice()
 {
+    Console.Clear();
     bool indiceInvalido = false;
     do
     {
+        if (posicao < 1)
+        {
+            Console.WriteLine($"A estante está vazia, armazene um livro para poder exibir.");
+            break;
+        }
+
         Console.Write($"A prateleira possui {posicao} livros, qual você deseja imprimir?  ");
         int indice = int.Parse(Console.ReadLine()) - 1;
 
-        if (indice < 0 || indice > posicao)
+        if (indice < 0 || indice >= posicao)
         {
-            Console.WriteLine("Indice inválido, tente novamente.\n");
+            Console.WriteLine("\nIndice inválido, tente novamente.\n");
             indiceInvalido = true;
         }
         else
         {
-            Console.WriteLine();
+            Console.Clear();
+            Console.WriteLine($"Livro {indice + 1}: \n");
             estante[indice].ImprimirDadosDoLivro();
             indiceInvalido = false;
         }
@@ -69,46 +131,32 @@ void ImprimirLivroPorIndice()
     while (indiceInvalido);
 }
 
-Console.WriteLine("Organize a estante de livros!\n");
-
-// Armazenamento dos livros
-do
-{
-    Console.Write($"\nCadastre os dados os dados do livro antes de armazenar: \n");
-    estante[posicao] = ArmazenarLivro();
-    posicao++;
-
-    Console.Clear();
-    Console.WriteLine("\nLivro armazenado!\n");
-    Console.Write("Deseja armazenar mais um livro? (S) Sim / (N) Não : ");
-    cadastrar = Console.ReadLine().ToUpper().First() == 'S';
-}
-while (cadastrar && posicao < 10);
-
-// Impressão dos livros
 do
 {
     Console.Clear();
-    Console.WriteLine("Como deseja visualizar os livros da estante?\n");
-    Console.WriteLine("(1) Exibir todos");
-    Console.WriteLine("(2) Escolher pelo indice");
-    int resposta = int.Parse(Console.ReadLine());
-    
-    if (resposta == 1)
+    int opcao = Menu();
+    switch(opcao)
     {
-        ImprimirTodosLivros(posicao);
-    }
-    else if (resposta == 2)
-    {
-        ImprimirLivroPorIndice();
-    }
-    else
-    {
-        Console.WriteLine("\nOpção inválida, tente novamente.\n");
-        continue;
+        case 1:
+            ArmazenarLivro();
+            break;
+        case 2:
+            ImprimirTodosLivros();
+            break;
+        case 3:
+            ImprimirLivroPorIndice();
+            break;
+        case 4:
+            Environment.Exit(0);
+            break;
+        default:
+            Console.WriteLine("\nOpção inválida, tente novamente.\n");
+            continue;
     }
 
-    Console.Write("\nDeseja visualizar mais algum livro? (S) Sim | (N) Não :  ");
+    Console.Write("\nDeseja voltar para o menu? (S) Sim | (N) Não :  ");
     repetir = Console.ReadLine().ToUpper().First() == 'S';
 }
 while (repetir);
+
+Console.WriteLine();
