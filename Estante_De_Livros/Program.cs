@@ -33,17 +33,35 @@ int Menu()
 
 Livro CadastrarLivro()
 {
-    int edicao, quantidadeDePaginas;
-    string titulo, autores, editora;
+    int edicao, quantidadeDePaginas, contagemAutores = 0;
+    string titulo = "", editora = "", autores = "";
     DateOnly dataDeLacamento;
     BigInteger ISBN;
+
 
     Console.Write("Titulo: ");
     titulo = (Console.ReadLine());
 
-    Console.Write("Autores : ");
-    autores = (Console.ReadLine());
+    bool adicionarAutor = false;
+    do
+    {
+        Console.Write($"Autor(a) {contagemAutores + 1} [Máximo 3] : ");
+        autores += Console.ReadLine();
+        contagemAutores++;
+        if (contagemAutores >= 3)
+        {
+            break;
+        }
 
+        Console.Write("\nDeseja incluir mais algum autor(a)? (S) Sim / (N) Não : ");
+        adicionarAutor = Console.ReadLine().ToUpper().First() == 'S';
+        if (adicionarAutor)
+        {
+            autores += ", ";
+        }
+    }
+    while (adicionarAutor);
+    
     Console.Write("Editora: ");
     editora = (Console.ReadLine());
 
@@ -142,21 +160,21 @@ do
             break;
         case 2:
             ImprimirTodosLivros();
+            Console.WriteLine("\n - Pressione qualquer tecla para voltar ao menu - \n");
+            Console.ReadKey();
             break;
         case 3:
             ImprimirLivroPorIndice();
+            Console.WriteLine("\n - Pressione qualquer tecla para voltar ao menu - \n");
+            Console.ReadKey();
             break;
         case 4:
             Environment.Exit(0);
             break;
         default:
             Console.WriteLine("\nOpção inválida, tente novamente.\n");
+            Console.ReadKey();
             continue;
     }
-
-    Console.Write("\nDeseja voltar para o menu? (S) Sim | (N) Não :  ");
-    repetir = Console.ReadLine().ToUpper().First() == 'S';
 }
-while (repetir);
-
-Console.WriteLine();
+while (true);

@@ -31,7 +31,7 @@ namespace Estante_De_Livros
         public void ImprimirDadosDoLivro()
         {
             Console.WriteLine("Titulo: " + this.titulo);
-            Console.WriteLine("Autores: " + this.autores);
+            Console.WriteLine("Autores: " + autores);
             Console.WriteLine("Editora: " + this.editora);
             Console.WriteLine("ISDN: " + this.ISBN);
             Console.WriteLine("Edição: " + this.edicao);
