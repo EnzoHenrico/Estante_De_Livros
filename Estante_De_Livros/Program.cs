@@ -59,6 +59,10 @@ Livro CadastrarLivro()
         {
             autores += ", ";
         }
+        else
+        {
+            autores += ".";
+        }
     }
     while (adicionarAutor);
     
